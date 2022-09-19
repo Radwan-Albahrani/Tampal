@@ -1,0 +1,47 @@
+= Tampal
+:hide-uri-scheme:
+
+Example paste-bin implementations:
+
+* https://pastebin.com
+* https://rentry.co
+* https://klgrth.io
+* https://controlc.com
+
+The primary target audience for this app are developers and we want to cater for the following simple use cases first:
+
+* A way for developers to share quick documentation of command lines and/or snippets of code to do certain tasks. The documentation is primariliy for the author's use & acts as a personal cheat sheet for the user.
+* A way for developers to share debugging logs to other users.
+
+== UI
+
+- Dashboard. Shows all of user's pastes. Should support grid view & lists view. There will be a add button at the bottom right for users to add new pastes.
+- View a paste. A paste could be raw, asciidoc, or markdown. If raw, the paste will be rendered verbatim, if it's in asciidoc, then the paste will be rendered with asciidoc, likewise for markdown.
+- Edit a paste. If the toggle for asciidoc or markdown is on, then they'll be a preview section right below the editing box. The cursor in the preview box should match the location of the cursor in the editor box.
+
+== Data model & backend
+
+There are two core data objects in the database, users and pastes. A user has a collection of pastes that they own. Only the author of the paste may edit or delete their paste. Everyone could view everyone else's pastes.
+
+For the backend, we'll use git respository, though the implementation should be flexible enough so that the git backend could be swapped out with different data storage backends such as MySQL server.
+
+An example structure in git repository could be the following:
+
+* `users/*/profile.yml` - contains information about a given user's profile.
+* `users/\*/pastes/*` - softlinks to pastes.
+* `pastes/*` - Contains the contents of the paste in raw text format.
+
+== REST API
+
+The backend should support REST API for:
+
+* viewing, adding, editing & deleting users. Only admin users could delete users. When a user is deleted, all the user's pastes are also deleted.
+* viewing, adding, editing and deleting paste. Only authors of the paste could edit or delete the paste.
+
+== Authentication
+
+We will rely on the downstream http reverse proxy server for handling user's authentication. Any information such as the user's id will be propagated downstream to the webapp in HTTP headers.
+
+== Access Control
+
+For simplicity, only authors of the paste could edit or delete the paste. Everyone has read access to all pastes.
