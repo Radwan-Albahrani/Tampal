@@ -8,22 +8,34 @@ Example paste-bin implementations:
 * https://klgrth.io
 * https://controlc.com
 
-The primary target audience for this app are developers and we want to cater for the following simple use cases first:
+The primary target audience for this app are developers and we want to cater for
+the following simple use cases first:
 
-* A way for developers to share quick documentation of command lines and/or snippets of code to do certain tasks. The documentation is primariliy for the author's use & acts as a personal cheat sheet for the user.
-* A way for developers to share debugging logs to other users.
+* A way for developers to share quick documentation of command lines and/or
+snippets of code to do certain tasks. The documentation is primariliy for the
+author's use & acts as a personal cheat sheet for the user. * A way for
+developers to share debugging logs to other users.
 
 == UI
 
-- Dashboard. Shows all of user's pastes. Should support grid view & lists view. There will be a add button at the bottom right for users to add new pastes.
-- View a paste. A paste could be raw, asciidoc, or markdown. If raw, the paste will be rendered verbatim, if it's in asciidoc, then the paste will be rendered with asciidoc, likewise for markdown.
-- Edit a paste. If the toggle for asciidoc or markdown is on, then they'll be a preview section right below the editing box. The cursor in the preview box should match the location of the cursor in the editor box.
+- Dashboard. Shows all of user's pastes. Should support grid view & lists view.
+There will be a add button at the bottom right for users to add new pastes.
+- View a paste. A paste could be raw, asciidoc, or markdown. If raw, the paste
+will be rendered verbatim, if it's in asciidoc, then the paste will be rendered
+with asciidoc, likewise for markdown.
+- Edit a paste. If the toggle for asciidoc or markdown is on, then they'll be a
+preview section right below the editing box. The cursor in the preview box
+should match the location of the cursor in the editor box.
 
 == Data model & backend
 
-There are two core data objects in the database, users and pastes. A user has a collection of pastes that they own. Only the author of the paste may edit or delete their paste. Everyone could view everyone else's pastes.
+There are two core data objects in the database, users and pastes. A user has a
+collection of pastes that they own. Only the author of the paste may edit or
+delete their paste. Everyone could view everyone else's pastes.
 
-For the backend, we'll use git respository, though the implementation should be flexible enough so that the git backend could be swapped out with different data storage backends such as MySQL server.
+For the backend, we'll use git respository, though the implementation should be
+flexible enough so that the git backend could be swapped out with different data
+storage backends such as MySQL server.
 
 An example structure in git repository could be the following:
 
@@ -35,13 +47,94 @@ An example structure in git repository could be the following:
 
 The backend should support REST API for:
 
-* viewing, adding, editing & deleting users. Only admin users could delete users. When a user is deleted, all the user's pastes are also deleted.
-* viewing, adding, editing and deleting paste. Only authors of the paste could edit or delete the paste.
+* viewing, adding, editing & deleting users. Only admin users could delete
+users. When a user is deleted, all the user's pastes are also deleted.
+* viewing, adding, editing and deleting paste. Only authors of the paste could
+edit or delete the paste.
 
 == Authentication
 
-We will rely on the downstream http reverse proxy server for handling user's authentication. Any information such as the user's id will be propagated downstream to the webapp in HTTP headers.
+We will rely on the downstream http reverse proxy server for handling user's
+authentication. Any information such as the user's id will be propagated
+downstream to the webapp in HTTP headers.
 
 == Access Control
 
-For simplicity, only authors of the paste could edit or delete the paste. Everyone has read access to all pastes.
+For simplicity, only authors of the paste could edit or delete the paste.
+Everyone has read access to all pastes.
+
+== Project Milestones
+
+=== Project Setup
+
+==== Background reading
+- `bazel`
+* https://bazel.build/about/intro[Introduction]
+* https://bazel.build/start/java[Getting started]
+- `git`
+* https://git-scm.com/book/en/v2[Chapter 2 - Git Basics]
+* https://git-scm.com/book/en/v2[Chapter 3 - Git Branching]
+- Protocol buffers aka `protobuf`
+* https://developers.google.com/protocol-buffers[Introduction]
+* https://developers.google.com/protocol-buffers/docs/javatutorial[Protobufs in Java]
+- `jetty`
+* https://www.vogella.com/tutorials/Jetty/article.html[Simple HelloWorld Servlet]
+* https://gerrit.googlesource.com/gitiles/+/refs/heads/master/java/com/google/gitiles/dev/DevServer.java[Real world example]
+- https://google.github.io/styleguide/javaguide.html[Java Style Guide]
+
+Bring up a simple HelloWorld HTTP servlet. Requirements, use `bazel` for
+building & `jetty` as the servlet container.
+
+=== Design the HTTP request URIs
+
+==== Background reading
+- https://cloud.google.com/apis/design/resources
+- https://cloud.google.com/apis/design/resource_names
+- https://cloud.google.com/apis/design/standard_methods
+- https://cloud.google.com/apis/design/custom_methods
+- https://cloud.google.com/apis/design/standard_fields
+- https://cloud.google.com/apis/design/errors
+- https://cloud.google.com/apis/design/naming_convention
+- https://cloud.google.com/apis/design/design_patterns
+
+Following the guidelines of API design above, design the request URIs for
+
+* listing all of the user's pastes
+* adding, viewing, editing & deleting a user's paste
+
+The API should be defined in grpc protocol buffer service definition format.
+
+=== Implement basic UI
+
+Build up the request handlers for the user's dashboard, viewing a paste &
+editing a paste. The pastes can be rendered in raw text format. We'll add
+rendering of asciidoc & markdown, etc in later stages.
+
+All data are fake data.
+
+=== Backend implementation
+
+==== Background reading
+- https://www.eclipse.org/jgit/[jgit]
+- https://cloud.google.com/appengine/docs/legacy/standard/java/tools/localunittesting[Unit-testing]
+
+Design & implement the backend library that implements adding users, adding,
+editing, viewing & deleting of pastes. Add unit-tests for each of the methods.
+
+Example Java API:
+[source,java]
+----
+void AddUser(UserProfile userProfile) throws SomeException;
+----
+
+=== Authentication
+
+TODO
+
+=== Monitoring
+
+TODO
+
+=== Deployment
+
+TODO
