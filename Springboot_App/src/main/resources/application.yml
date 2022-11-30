@@ -1,0 +1,4 @@
+server:
+  port: 6789
+grpc:
+  port: 6790

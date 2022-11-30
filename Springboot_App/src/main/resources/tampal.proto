@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+option java_package = "my.huda.tampal.protos";
+option java_outer_classname = "TampalProtos";
+
+// General API URI Schema: user/USERID/paste/PASTEID
+service TampalService {
+  rpc GetPaste (GetPasteRequest) returns (Paste);
+  rpc CreatePaste (CreatePasteRequest) returns (APIResponse);
+  rpc UpdatePaste (UpdatePasteRequest) returns (Paste);
+  rpc DeletePaste (DeletePasteRequest) returns (APIResponse);
+  rpc CreateUser (CreateUserRequest) returns (APIResponse);
+  rpc GetUser (GetUserRequest) returns (UserResponse);
+}
+
+
+message User {
+  string username = 1;
+  int32 userID = 2;
+  string email = 3;
+  string password = 4;
+
+  repeated Paste pastes = 5;
+}
+
+message UserResponse {
+  string username = 1;
+  int32 userID = 2;
+  string email = 3;
+
+  repeated Paste pastes = 5;
+}
+
+message Paste {
+  string text = 1;
+  int32 pasteID = 2;
+}
+
+message GetPasteRequest {
+  // Resource name of a paste. For example: "user/1/paste/123".
+  int32 pasteID = 1;
+
+  // User ID of the user who owns the paste.
+  int32 userID = 2;
+}
+
+message CreateUserRequest {
+  // The User resource to be created
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message GetUserRequest {
+  // Resource name of a user. For example: "user/1".
+  int32 userID = 1;
+}
+
+message CreatePasteRequest {
+  // Resource name of the parent resource where to create the paste.
+  // For example: "user/1".
+  int32 userID = 1;
+  // The paste resource to be created.
+  Paste paste = 2;
+}
+
+message UpdatePasteRequest {
+  // Resource name of the paste to be updated.
+  // For example: "user/1/paste/123".
+  int32 pasteID = 1;
+  int32 userID = 2;
+  // The paste resource to be updated.
+  Paste paste = 3;
+}
+
+message DeletePasteRequest {
+  // Resource name of the paste to be deleted.
+  // For example: "user/1/paste/123".
+  int32 pasteID = 1;
+
+  // User who has the paste to be deleted.
+  int32 userID = 2;
+}
+
+// Responce code enum
+enum ResponseCode {
+  OK = 0;
+  NOT_FOUND = 1;
+  INTERNAL_ERROR = 2;
+  INVALID_ARGUMENT = 3;
+  PERMISSION_DENIED = 4;
+}
+message APIResponse {
+  // The response code.
+  ResponseCode code = 1;
+  // The response message.
+  string message = 2;
+}
+
+message Users {
+  repeated User users = 1;
+}
