@@ -112,6 +112,24 @@ rendering of asciidoc & markdown, etc in later stages.
 
 All data are fake data.
 
+==== Background reading
+- `typescript`
+* https://www.typescriptlang.org/assets/typescript-handbook.pdf
+* https://www.typescriptlang.org/docs/handbook/typescript-tooling-in-5-minutes.html
+- `lit.dev`
+* https://lit.dev/docs/components/overview/[All of Components]
+* https://lit.dev/docs/templates/overview/[All of Templates]
+* https://lit.dev/docs/composition/overview/[All of Composition]
+* https://lit.dev/docs/tools/overview/[All of Tools and Workflows]
+* https://lit.dev/tutorials/intro-to-lit/[Step-by-step tutorial]
+
+Custom elements to implement:
+
+- <user-profile>
+- <paste>
+- <editable-paste>
+- <dashboard>
+
 === Backend implementation
 
 ==== Background reading
