@@ -122,6 +122,7 @@ All data are fake data.
 * https://lit.dev/docs/composition/overview/[All of Composition]
 * https://lit.dev/docs/tools/overview/[All of Tools and Workflows]
 * https://lit.dev/tutorials/intro-to-lit/[Step-by-step tutorial]
+* https://github.com/lit/lit-element-starter-ts[Lit element dev starter]
 
 Custom elements to implement:
 
