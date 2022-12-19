@@ -2,56 +2,144 @@ package my.huda.tampal.controllers;
 
 import my.huda.tampal.protos.TampalProtos.*;
 import my.huda.tampal.service.TampalService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
-public class HttpController
-{
+@RequestMapping("/api/v1")
+public class HttpController {
     @Autowired
     private TampalService tampalService;
 
-    @PostMapping(path = "/v1/user/createPaste", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createPaste(@RequestBody CreatePasteRequest request)
-    {
-        return ResponseEntity.ok(tampalService.createPaste(request));
-    }
-
-    @PostMapping(path = "/v1/user/createUser", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request)
-    {
-        return ResponseEntity.ok(tampalService.createUser(request));
-    }
-
-    @PostMapping(path = "/v1/user/deletePaste", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deletePaste(@RequestBody DeletePasteRequest request)
-    {
-        return ResponseEntity.ok(tampalService.deletePaste(request));
-    }
-
-    @GetMapping(path = "/v1/user/getPaste", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getPaste(@RequestBody GetPasteRequest request)
-    {
+    @GetMapping(value = "/paste/find", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getPaste(@RequestParam(required = false) Integer userID,
+            @RequestParam(required = false) Integer pasteID) {
+        if (userID == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("userID is required")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        if (pasteID == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("pasteID is required")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        GetPasteRequest request = GetPasteRequest.newBuilder()
+                .setUserID(userID)
+                .setPasteID(pasteID)
+                .build();
         return ResponseEntity.ok(tampalService.getPaste(request));
     }
 
-    @GetMapping(path = "/v1/user/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getUser(@RequestBody GetUserRequest request)
-    {
-        return ResponseEntity.ok(tampalService.getUser(request));
+    @PostMapping(path = "/paste/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createPaste(@RequestParam(required = false) Integer userID,
+            @RequestBody(required = false) Paste paste) {
+        if (userID == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("userID is required")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        if (paste == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("Paste not Provided. Provide a valid paste as JSON")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        CreatePasteRequest request = CreatePasteRequest.newBuilder()
+                .setUserID(userID)
+                .setPaste(paste)
+                .build();
+        return ResponseEntity.ok(tampalService.createPaste(request));
     }
 
-    @PostMapping(path = "/v1/user/updatePaste", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updatePaste(@RequestBody UpdatePasteRequest request)
-    {
+    @PutMapping(path = "/paste/update", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updatePaste(@RequestParam(required = false) Integer userID,
+            @RequestParam(required = false) Integer pasteID,
+            @RequestBody(required = false) Paste paste) {
+        if (userID == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("userID is required")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        if (pasteID == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("pasteID is required")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        if (paste == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("Paste not Provided. Provide a valid paste as JSON")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+
+        UpdatePasteRequest request = UpdatePasteRequest.newBuilder()
+                .setUserID(userID)
+                .setPasteID(pasteID)
+                .setPaste(paste)
+                .build();
         return ResponseEntity.ok(tampalService.updatePaste(request));
+    }
+
+    @DeleteMapping(path = "/paste/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deletePaste(@RequestParam(required = false) Integer userID,
+            @RequestParam(required = false) Integer pasteID) {
+        if (userID == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("userID is required")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        if (pasteID == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("pasteID is required")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        DeletePasteRequest request = DeletePasteRequest.newBuilder()
+                .setUserID(userID)
+                .setPasteID(pasteID)
+                .build();
+        return ResponseEntity.ok(tampalService.deletePaste(request));
+    }
+
+    @PostMapping(path = "/user/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createUser(@RequestBody(required = false) CreateUserRequest request) {
+        if (request == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("User not Provided. Provide a valid user as JSON")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+        }
+        return ResponseEntity.ok(tampalService.createUser(request));
+    }
+
+    @GetMapping(path = "/user/find", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUser(@RequestParam(required = false) Integer userID) {
+        if (userID == null) {
+            return ResponseEntity.ok(APIResponse.newBuilder()
+                    .setMessage("userID is required")
+                    .setCode(ResponseCode.INVALID_ARGUMENT)
+                    .build());
+
+        }
+        GetUserRequest request = GetUserRequest.newBuilder()
+                .setUserID(userID)
+                .build();
+        return ResponseEntity.ok(tampalService.getUser(request));
     }
 }

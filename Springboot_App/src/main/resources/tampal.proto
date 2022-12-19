@@ -32,8 +32,10 @@ message UserResponse {
 }
 
 message Paste {
-  string text = 1;
-  int32 pasteID = 2;
+  int32 pasteID = 1;
+  string title = 2;
+  string content = 3;
+  string date = 4;
 }
 
 message GetPasteRequest {

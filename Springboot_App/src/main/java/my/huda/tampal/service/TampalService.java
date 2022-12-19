@@ -1,12 +1,11 @@
 package my.huda.tampal.service;
+
 import my.huda.tampal.protos.TampalProtos.*;
 
-public class TampalService
-{
+public class TampalService {
     public static int id = 0;
 
-    public APIResponse createPaste(CreatePasteRequest request)
-    {
+    public APIResponse createPaste(CreatePasteRequest request) {
         Paste paste = request.getPaste();
         int userID = request.getUserID();
 
@@ -21,8 +20,7 @@ public class TampalService
         return response;
     }
 
-    public APIResponse createUser(CreateUserRequest request)
-    {
+    public APIResponse createUser(CreateUserRequest request) {
         // Get info from request
         String username = request.getUsername();
         String password = request.getPassword();
@@ -37,28 +35,28 @@ public class TampalService
         // TODO Get all users from a file of some sort or a database
         Users allUsers = Users.newBuilder().addUsers(user).build();
 
-        APIResponse response = APIResponse.newBuilder().setCode(ResponseCode.OK).setMessage("User Created Successfully").build();
+        APIResponse response = APIResponse.newBuilder().setCode(ResponseCode.OK)
+                .setMessage("User Created Successfully")
+                .build();
         return response;
     }
 
-    public APIResponse deletePaste(DeletePasteRequest request)
-    {
+    public APIResponse deletePaste(DeletePasteRequest request) {
         int PasteID = request.getPasteID();
         int userID = request.getUserID();
 
         // TODO get user from database
         User.Builder temp = User.newBuilder().setUsername("username").setPassword("password").setEmail("email");
         temp.setUserID(userID);
-        temp.addPastes(Paste.newBuilder().setPasteID(PasteID).setText("paste").build());
+        temp.addPastes(Paste.newBuilder().setPasteID(PasteID).setTitle("My First Paste").setContent("Paste Content")
+                .setDate("2022-02-02").build());
 
         User user = temp.build();
 
         // TODO delete paste from user
         User.Builder tempUser = user.toBuilder();
-        for (int i = 0; i < user.getPastesCount(); i++)
-        {
-            if (user.getPastes(i).getPasteID() == PasteID)
-            {
+        for (int i = 0; i < user.getPastesCount(); i++) {
+            if (user.getPastes(i).getPasteID() == PasteID) {
                 tempUser.removePastes(i);
                 break;
             }
@@ -70,15 +68,16 @@ public class TampalService
         return response;
     }
 
-    public Paste getPaste(GetPasteRequest request)
-    {
+    public Paste getPaste(GetPasteRequest request) {
         int PasteID = request.getPasteID();
         int userID = request.getUserID();
 
         // TODO get user from database
         User.Builder temp = User.newBuilder().setUsername("username").setPassword("password").setEmail("email");
         temp.setUserID(userID);
-        temp.addPastes(Paste.newBuilder().setPasteID(PasteID).setText("paste").build());
+        temp.addPastes(
+                Paste.newBuilder().setPasteID(PasteID).setTitle("My First Paste").setContent("Paste Content")
+                        .setDate("2022-02-02").build());
 
         User user = temp.build();
 
@@ -88,21 +87,20 @@ public class TampalService
 
     }
 
-    public UserResponse getUser(GetUserRequest request)
-    {
+    public UserResponse getUser(GetUserRequest request) {
         int userID = request.getUserID();
 
         // TODO get user from database
         UserResponse.Builder temp = UserResponse.newBuilder().setUsername("username").setEmail("email");
         temp.setUserID(userID);
-        temp.addPastes(Paste.newBuilder().setPasteID(0).setText("paste").build());
+        temp.addPastes(Paste.newBuilder().setPasteID(0).setTitle("My First Paste").setContent("Paste Content")
+                .setDate("2022-02-02").build());
 
         UserResponse user = temp.build();
         return user;
     }
 
-    public Paste updatePaste(UpdatePasteRequest request)
-    {
+    public Paste updatePaste(UpdatePasteRequest request) {
         int PasteID = request.getPasteID();
         int userID = request.getUserID();
         Paste paste = request.getPaste();
@@ -110,16 +108,15 @@ public class TampalService
         // TODO get user from database
         User.Builder temp = User.newBuilder().setUsername("username").setPassword("password").setEmail("email");
         temp.setUserID(userID);
-        temp.addPastes(Paste.newBuilder().setPasteID(PasteID).setText("paste").build());
+        temp.addPastes(Paste.newBuilder().setPasteID(PasteID).setTitle("My First Paste").setContent("Paste Content")
+                .setDate("2022-02-02").build());
 
         User user = temp.build();
 
         // TODO update paste from user
         User.Builder tempUser = user.toBuilder();
-        for (int i = 0; i < user.getPastesCount(); i++)
-        {
-            if (user.getPastes(i).getPasteID() == PasteID)
-            {
+        for (int i = 0; i < user.getPastesCount(); i++) {
+            if (user.getPastes(i).getPasteID() == PasteID) {
                 tempUser.setPastes(i, paste);
                 break;
             }
