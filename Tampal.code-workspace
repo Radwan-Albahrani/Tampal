@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "Springboot_App"
+		},
+		{
+			"path": "Tampal_Frontend/Tampal-Lit"
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "disabled",
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}

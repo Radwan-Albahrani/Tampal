@@ -16,7 +16,7 @@ class RegisterScreen extends LitElement {
   @query('#email')
   private emailInput: any;
 
-  @query('#confirm_password')
+  @query('#confirm-password')
   private confirmPasswordInput: any;
 
   @query('#alert-password')
@@ -24,63 +24,74 @@ class RegisterScreen extends LitElement {
 
   render() {
     return html`
-      <h1 class="heading">Register Now!</h1>
-      <form @submit=${this.register} method="post">
-        <div>
-          <div class="form__group field">
-            <input
-              type="text"
-              class="form__field"
-              placeholder="Username"
-              name="Username"
-              id="username"
-              required
-            />
-            <label for="Username" class="form__label">Username</label>
+      <div>
+        <main>
+        <h1 class="heading">Register Now!</h1>
+        <form @submit=${this.register} method="post">
+          <div>
+            <div class="form__group field">
+              <input
+                type="text"
+                class="form__field"
+                placeholder="Username"
+                name="Username"
+                id="username"
+                required
+              />
+              <label for="Username" class="form__label">Username</label>
+            </div>
+            <div class="form__group field">
+              <input
+                type="text"
+                class="form__field"
+                placeholder="Subtitle"
+                name="Subtitle"
+                id="email"
+                required
+              />
+              <label for="subtitle" class="form__label">Email</label>
+            </div>
           </div>
-          <div class="form__group field">
-            <input
-              type="text"
-              class="form__field"
-              placeholder="Subtitle"
-              name="Subtitle"
-              id="email"
-              required
-            />
-            <label for="subtitle" class="form__label">Email</label>
+          <div>
+            <div class="form__group field">
+              <input
+                type="text"
+                class="form__field"
+                placeholder="Password"
+                name="Password"
+                id="password"
+                required
+              />
+              <label for="Password" class="form__label">Password</label>
+            </div>
+            <div class="form__group field">
+              <input
+                type="text"
+                class="form__field"
+                placeholder="ConfirmPassword"
+                name="ConfirmPassword"
+                id="confirm-password"
+                required
+              />
+              <label for="ConfirmPassword" class="form__label">Confirm Password</label>
+            </div>
           </div>
-        </div>
-        <div>
-          <div class="form__group field">
-            <input
-              type="text"
-              class="form__field"
-              placeholder="Password"
-              name="Password"
-              id="password"
-              required
-            />
-            <label for="Password" class="form__label">Password</label>
+          <div>
+            <button type="submit" class="login-button">Register</button>
           </div>
-          <div class="form__group field">
-            <input
-              type="text"
-              class="form__field"
-              placeholder="ConfirmPassword"
-              name="ConfirmPassword"
-              id="confirm_password"
-              required
-            />
-            <label for="ConfirmPassword" class="form__label">Confirm Password</label>
+          <div>
+            <p class="alert hidden" id="alert-password"></p>
           </div>
-        </div>
+        </form>
         <div>
-          <button type="submit" class="login-button">Register</button>
+            <a href="/login" style="width: 100%">
+              <button class="login-button">
+                Login
+              </button>
+            </a>
         </div>
-        <div>
-          <p class="alert hidden" id="alert-password"></p>
-        </div>
-      </form>
+      </main>
+    </div>
     `;
   }
 

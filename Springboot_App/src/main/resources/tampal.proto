@@ -11,6 +11,7 @@ service TampalService {
   rpc DeletePaste (DeletePasteRequest) returns (APIResponse);
   rpc CreateUser (CreateUserRequest) returns (APIResponse);
   rpc GetUser (GetUserRequest) returns (UserResponse);
+  rpc getLatestChanges (GetLatestChangesRequest) returns (GITResponse);
 }
 
 
@@ -84,6 +85,12 @@ message DeletePasteRequest {
   int32 userID = 2;
 }
 
+message GetLatestChangesRequest {
+  // Resource name of the user to get the latest changes.
+  // For example: "user/1".
+  int32 userID = 1;
+}
+
 // Responce code enum
 enum ResponseCode {
   OK = 0;
@@ -97,6 +104,20 @@ message APIResponse {
   ResponseCode code = 1;
   // The response message.
   string message = 2;
+}
+
+message Commit
+{
+  string commitID = 1;
+  string commitMessage = 2;
+  string commitDate = 3;
+  string commitAuthor = 4;
+}
+
+message GITResponse {
+  ResponseCode code = 1;
+  repeated Commit commit = 2;
+  string message = 3;
 }
 
 message Users {

@@ -58,4 +58,13 @@ public class GrpcController extends TampalServiceImplBase
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void getLatestChanges(GetLatestChangesRequest request, StreamObserver<GITResponse> responseObserver)
+    {
+        GITResponse response = tampalService.getLatestChanges(request);
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
 }

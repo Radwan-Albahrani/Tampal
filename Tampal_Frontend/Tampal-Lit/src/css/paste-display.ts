@@ -5,7 +5,7 @@ const PASTE_DISPLAY = css`
   .paste-title {
     color: darkgray;
     text-align: center;
-    font-size: 70px;
+    font-size: 50px;
     padding: 20px;
     padding-bottom: 0;
   }

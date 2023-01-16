@@ -1,5 +1,5 @@
 export interface Paste {
-    ID: number;
+    pasteID: number;
     title: string;
     content: string;
     date: string;

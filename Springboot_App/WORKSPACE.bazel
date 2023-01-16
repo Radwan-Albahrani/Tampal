@@ -31,14 +31,11 @@ load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
 rules_jvm_external_setup()
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
-load("@io_grpc_grpc_java//:repositories.bzl", "IO_GRPC_GRPC_JAVA_ARTIFACTS")
-load("@io_grpc_grpc_java//:repositories.bzl", "IO_GRPC_GRPC_JAVA_OVERRIDE_TARGETS")
-load("@io_grpc_grpc_java//:repositories.bzl", "grpc_java_repositories")
+load("@io_grpc_grpc_java//:repositories.bzl", "IO_GRPC_GRPC_JAVA_OVERRIDE_TARGETS", "grpc_java_repositories")
 
 grpc_java_repositories()
 
-load("@com_google_protobuf//:protobuf_deps.bzl", "PROTOBUF_MAVEN_ARTIFACTS")
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+load("@com_google_protobuf//:protobuf_deps.bzl", "PROTOBUF_MAVEN_ARTIFACTS", "protobuf_deps")
 
 protobuf_deps()
 
@@ -49,6 +46,8 @@ maven_install(
         "org.springframework.boot:spring-boot:2.7.5",
         "org.springframework.boot:spring-boot-autoconfigure:2.7.5",
         "org.springframework.boot:spring-boot-starter-web:2.7.5",
+        "org.springframework.boot:spring-boot-starter-thymeleaf:2.7.5",
+        "org.springframework:spring-webmvc:5.3.23",
         "org.springframework:spring-web:5.3.23",
         "org.springframework:spring-context:5.3.23",
         "org.springframework:spring-beans:5.3.23",
@@ -57,6 +56,7 @@ maven_install(
         "org.apache.tomcat:annotations-api:6.0.53",
         "org.eclipse.jetty:jetty-server:11.0.12",
         "org.eclipse.jetty:jetty-servlet:11.0.12",
+        "org.eclipse.jgit:org.eclipse.jgit:6.4.0.202211300538-r",
         "javax:javaee-api:8.0.1",
         "jakarta.servlet:jakarta.servlet-api:5.0.0",
         "io.github.lognet:grpc-spring-boot-starter:3.3.0",
